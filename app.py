@@ -1,44 +1,42 @@
 from flask import Flask, render_template, request
+import os
 import openai
 
-
-# Set the API key to authenticate with the OpenAI API
-api_key = "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"
-# Assign the API key to openai.api_key for authentication
-openai.api_key = api_key
-
+openai.api_key = "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"
 
 app = Flask(__name__)
+app.config['MAX_HISTORY'] = 5
 
+chat_history = []
 
-# Define a function called generate_response that takes a prompt as input
 def generate_response(prompt):
-    # Call the OpenAI API to generate a response based on the given prompt
+    context = "\n\n".join(chat_history[-app.config['MAX_HISTORY']:])
+    full_prompt = f"I am a highly intelligent question answering bot. If you ask me a question that is rooted in truth, I will give you the answer. If you ask me a question that is nonsense, trickery, or has no clear answer, I will respond with \"Unknown\".{context}\n\nQ: {prompt}\nA:"
+
     response = openai.Completion.create(
-        engine="davinci",  # Specify the engine to use for generating the response
-        prompt=prompt,  # Pass the prompt to the API
-        max_tokens=1500,  # Limit the response to a maximum of 150 tokens
-        n=1,  # Request only one response from the API
-        stop=["."], # If provided, the model will stop generating when it encounters specified tokens (e.g., ["."] or ["?", "!"]). None means no specific stopping tokens.
-        temperature=0.1,  # Set the temperature (creativity) of the response
+        model="text-davinci-003",
+        prompt=full_prompt,
+        temperature=0,
+        max_tokens=100,
+        top_p=1,
+        frequency_penalty=0,
+        presence_penalty=0,
+        stop=["\n"]
     )
 
-    # Extract the text from the response and remove any leading/trailing whitespace
     message = response.choices[0].text.strip()
-    # Return the cleaned-up message
     return message
-
-
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
-    response = None
     if request.method == 'POST':
-        prompt = request.form['prompt']
-        response = generate_response(prompt)
+        user_input = request.form['prompt']
+        chatbot_response = generate_response(user_input)
+        
+        chat_history.append(f"User: {user_input}")
+        chat_history.append(f"AI: {chatbot_response}")
 
-    return render_template('index.html', response=response)
-
+    return render_template('index.html', chat_history=chat_history)
 
 if __name__ == '__main__':
     app.run(debug=True)

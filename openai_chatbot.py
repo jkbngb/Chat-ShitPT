@@ -1,18 +1,30 @@
-# Import the openai library to interact with the OpenAI API
+import os
 import openai
-# Import the sys module to work with command-line arguments
 import sys
 
-# Check if the script is being run as the main module
+openai.api_key = "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"
+
+start_sequence = "\nA:"
+restart_sequence = "\n\nQ: "
+
+def generate_response(prompt):
+    response = openai.Completion.create(
+        model="text-davinci-003",
+        prompt=f"{restart_sequence}{prompt}{start_sequence}",
+        temperature=0,
+        max_tokens=100,
+        top_p=1,
+        frequency_penalty=0,
+        presence_penalty=0,
+        stop=["\n"]
+    )
+    return response.choices[0].text.strip()
+
 if __name__ == "__main__":
-    # Check if a command-line argument was provided
     if len(sys.argv) > 1:
-        # Construct the prompt by adding the command-line argument to a question string
-        prompt = f"Answer the following question: {sys.argv[1]}"
-        # Call the generate_response function with the constructed prompt
+        prompt = f"{sys.argv[1]}"
         response = generate_response(prompt)
-        # Print the generated response
         print("GPT-3 Response:", response)
     else:
-        # Print an error message if no command-line argument was provided
         print("Please provide a prompt as a command-line argument.")
+

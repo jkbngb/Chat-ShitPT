@@ -2,18 +2,36 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>GPT-3 Demo</title>
+    <title>Chat-ShitPT Demo</title>
+    <style>
+        li {
+            margin-bottom: 10px;
+        }
+        .question {
+            background-color: #d7e2f2;
+            padding: 5px;
+            border-radius: 5px;
+        }
+        .response {
+            background-color: #e7f2d7;
+            padding: 5px;
+            border-radius: 5px;
+        }
+    </style>
 </head>
 <body>
-    <h1>GPT-3 Demo</h1>
+    <h1>Chat-ShitPT Demo</h1>
     <form method="POST">
         <label for="prompt">Enter your question:</label>
         <input type="text" id="prompt" name="prompt">
         <button type="submit">Submit</button>
     </form>
-    {% if response %}
-        <h2>Response:</h2>
-        <p>{{ response }}</p>
-    {% endif %}
+    <h2>Chat History:</h2>
+    <ul>
+    {% for i in range(0, chat_history|length, 2)|reverse %}
+        <li class="question">{{ chat_history[i] }}</li>
+        <li class="response">{{ chat_history[i+1] }}</li>
+    {% endfor %}
+    </ul>
 </body>
 </html>
