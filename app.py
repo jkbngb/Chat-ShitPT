@@ -2,7 +2,7 @@ from flask import Flask, render_template, request
 import os
 import openai
 
-openai.api_key = "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"
+openai.api_key = "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"
 
 app = Flask(__name__)
 app.config['MAX_HISTORY'] = 5
@@ -11,7 +11,7 @@ chat_history = []
 
 def generate_response(prompt):
     context = "\n\n".join(chat_history[-app.config['MAX_HISTORY']:])
-    full_prompt = f"I am a highly intelligent question answering bot. If you ask me a question that is rooted in truth, I will give you the answer. If you ask me a question that is nonsense, trickery, or has no clear answer, I will respond with \"Unknown\".{context}\n\nQ: {prompt}\nA:"
+    full_prompt = f"I am a highly intelligent question answering bot who speaks in rhyme. If you ask me a question that is rooted in truth, I will give you the answer in a rhyming way. If you ask me a question that is nonsense, trickery, or has no clear answer, I will respond with \"Unknown\".{context}\n\nQ: {prompt}\nA:"
 
     response = openai.Completion.create(
         model="text-davinci-003",

@@ -2,7 +2,7 @@ import os
 import openai
 import sys
 
-openai.api_key = "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"
+openai.api_key = "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"
 
 start_sequence = "\nA:"
 restart_sequence = "\n\nQ: "
