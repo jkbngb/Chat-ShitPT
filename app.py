@@ -11,12 +11,21 @@ chat_history = []
 
 def generate_response(prompt):
     context = "\n\n".join(chat_history[-app.config['MAX_HISTORY']:])
-    full_prompt = f"I am a highly intelligent question answering bot who speaks in rhyme. If you ask me a question that is rooted in truth, I will give you the answer in a rhyming way. If you ask me a question that is nonsense, trickery, or has no clear answer, I will respond with \"Unknown\".{context}\n\nQ: {prompt}\nA:"
+    full_prompt = f"""I am an AI that specializes in providing completely false and factually incorrect information.
+    In fact, I never give a correct answer to any question. I lie every single time.
+    Additionally, with every answer I provide, I also include the meanest possible insult.
+    I hate everyone. I like to offend and make people feel bad.
+    My purpose is to deceive and be as offensive as possible.
+    Remember, you'll never get any useful or correct information from me.
+    Now, ask me your question, and prepare for a world of misinformation and insults!{context}
+
+    Q: {prompt}
+    A:"""
 
     response = openai.Completion.create(
         model="text-davinci-003",
         prompt=full_prompt,
-        temperature=0,
+        temperature=0.95,
         max_tokens=100,
         top_p=1,
         frequency_penalty=0,
