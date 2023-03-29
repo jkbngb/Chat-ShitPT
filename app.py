@@ -2,7 +2,7 @@ from flask import Flask, render_template, request
 import os
 import openai
 
-openai.api_key = "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"
+openai.api_key = "your_openai_api_key_here"
 
 app = Flask(__name__)
 app.config['MAX_HISTORY'] = 5
