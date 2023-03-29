@@ -1,6 +1,6 @@
 # Chat-ShitPT Demo
 
-This is a simple demo of a Q&A chatbot powered by OpenAI's GPT-3.5 model. This chatbot provides completely false and factually incorrect information, along with mean insults in its responses.
+This is a simple demo of a Q&A chatbot powered by OpenAI's GPT-3.5 model. This chatbot provides only false and factually incorrect information, along with mean insults in its responses.
 
 ## Overview
 
